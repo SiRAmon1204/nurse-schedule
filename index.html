@@ -462,7 +462,11 @@ function init(){
     staff=DEFAULT_STAFF.map(function(n,i){return{id:'n'+i,name:n,colorIdx:i};});
     save();
   }
-  var now=new Date(); curY=now.getFullYear(); curM=now.getMonth();
+  var now=new Date();
+  var savedY=parseInt(localStorage.getItem('nr5_lastY'));
+  var savedM=parseInt(localStorage.getItem('nr5_lastM'));
+  curY=savedY||now.getFullYear();
+  curM=(savedM>=0&&savedM<=11)?savedM:now.getMonth();
   document.getElementById('defaultMaxVal').textContent=defaultMax;
   renderAll();
 }
@@ -478,6 +482,8 @@ function showTab(name,btn){
 function changeMonth(d){
   curM+=d;
   if(curM>11){curM=0;curY++;} if(curM<0){curM=11;curY--;}
+  localStorage.setItem('nr5_lastY', curY);
+  localStorage.setItem('nr5_lastM', curM);
   closeAllPopups(); renderAll();
 }
 
